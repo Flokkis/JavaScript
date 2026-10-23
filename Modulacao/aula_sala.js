@@ -1,9 +1,9 @@
 const prompt = require("prompt-sync")()
 function menu(){
     let alunos = [
-        {nome: "Lorena", nota: 10},
-        {nome: "Maya", nota: 8.5},
-        {nome: "Zuri", nota: 9}
+        {nome: "lorena", nota: 10},
+        {nome: "maya", nota: 8.5},
+        {nome: "zuri", nota: 9}
     ]
     let opcao
     do{
@@ -22,7 +22,13 @@ function menu(){
                 mediaAlunos(somarNotas(alunos),alunos)
                 break
             case 5: //Listar aprovados
-                listarAlunos()
+                listarAprovados(alunos)
+                break
+            case 6:
+                alterarNota(alunos)
+                break
+            case 7:
+                removerAluno(alunos)
                 break
             case 0: //Fechar programa
         }
@@ -33,11 +39,13 @@ function exibirMenu(){
     console.log("================================")
     console.log("========Sistema escolar=========")
     console.log("================================")
-    console.log("1 : Exibir menu")
+    console.log("1 : Exibir alunos")
     console.log("2 : Inserir aluno")
     console.log("3 : Somar notas")
     console.log("4 : Media de todos alunos")
     console.log("5 : Listar aprovados")
+    console.log("6 : Alterar nota")
+    console.log("7 : Remover aluno")
     console.log("0 : Sair")
     return parseInt(prompt("Qual opcao vai ser?"))
 }
@@ -78,4 +86,40 @@ function somarNotas(vetor){
 function mediaAlunos(soma, vetor){
     let media = soma / vetor.length
     console.log("A média de todos os alunos foi:",media.toFixed(2))
+}
+function listarAprovados(vetor){
+    for(let i = 0; i < vetor.length; i++){
+        if(vetor[i].nota >= 7){
+            console.log("Aluno aprovado:")
+            console.log("Nome:",vetor[i].nome)
+            console.log("Nota:",vetor[i].nota)
+        }
+    }
+}
+function buscarIndice(vetor, nome){//função auxiliar
+    for(let i = 0; i < vetor.length; i++){
+        if(vetor[i].nome === nome){
+            return i
+        }
+    }
+    return -1
+}
+function alterarNota(vetor){
+    let nome = prompt("Qual aluno deseja alterar a nota:")
+    let nota = parseFloat(prompt("Qual a nova nota:"))
+    let indice = buscarIndice(vetor, nome)
+    vetor[indice].nota = nota
+    console.log("Nota alterada com sucesso.")
+}
+function removerAluno(vetor){
+    let rev_nome = prompt("Qual aluno deseja remover")
+    let indice_a = parseInt(buscarIndice(vetor, rev_nome))
+    if(indice_a === -1){
+        console.log("Aluno não encontrado.")
+        return
+    }
+    for(let i = indice_a; i < vetor.length -1; i++)
+        vetor[i] = vetor[i + 1]
+        vetor.length = vetor.length - 1
+        console.log("Aluno removido.")
 }
