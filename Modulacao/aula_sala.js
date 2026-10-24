@@ -2,7 +2,7 @@ const prompt = require("prompt-sync")()
 function menu(){
     let alunos = [
         {nome: "lorena", nota: 10},
-        {nome: "maya", nota: 8.5},
+        {nome: "maya", nota: 9.5},
         {nome: "zuri", nota: 9}
     ]
     let opcao
@@ -29,6 +29,12 @@ function menu(){
                 break
             case 7:
                 removerAluno(alunos)
+                break
+            case 8:
+                maiorNota(alunos)
+                break
+            case 9:
+                contarReprovados(alunos)
                 break
             case 0: //Fechar programa
         }
@@ -123,3 +129,28 @@ function removerAluno(vetor){
         vetor.length = vetor.length - 1
         console.log("Aluno removido.")
 }
+function maiorNota(vetor){
+    let maior = 0
+    for(let i = 0; i < vetor.length; i++){
+        if(vetor[i].nota >= vetor[maior].nota){
+            maior = i
+        }
+    }
+    console.log("Maior nota foi:")
+    console.log("Nome:",vetor[maior].nome,"-Nota",vetor[maior].nota)
+}
+function contarReprovados(vetor){
+    let contador = 0
+    for(let i = 0; i < vetor.length;i++){
+        if(vetor[i].nota <=6){
+            contador ++
+        }
+    }
+    return console.log("Alunos reprovados:",contador)
+}
+function buscarAluno(vetor){
+    let nome  = prompt("Qual o nome do aluno a ser buscado")
+    let encontrado = buscarIndice(vetor, nome)
+    if(encontrado !== -1){}
+}
+
