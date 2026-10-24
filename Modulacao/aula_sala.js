@@ -1,9 +1,9 @@
 const prompt = require("prompt-sync")()
 function menu(){
     let alunos = [
-        {nome: "lorena", nota: 10},
-        {nome: "maya", nota: 9.5},
-        {nome: "zuri", nota: 9}
+        {nome: "lorena", nota: 6},
+        {nome: "maya", nota: 8},
+        {nome: "zuri", nota: 2}
     ]
     let opcao
     do{
@@ -35,6 +35,15 @@ function menu(){
                 break
             case 9:
                 contarReprovados(alunos)
+                break
+            case 10:
+                buscarAluno(alunos)
+                break
+            case 11:
+                aplicarBonus(alunos)
+                break
+            case 12:
+                ordenarPorNota(alunos)
                 break
             case 0: //Fechar programa
         }
@@ -129,6 +138,7 @@ function removerAluno(vetor){
         vetor.length = vetor.length - 1
         console.log("Aluno removido.")
 }
+//Ex1.Acrescente a opção 8 ao menu: maiorNota(alunos), que retorna o aluno com a maior nota.
 function maiorNota(vetor){
     let maior = 0
     for(let i = 0; i < vetor.length; i++){
@@ -139,6 +149,7 @@ function maiorNota(vetor){
     console.log("Maior nota foi:")
     console.log("Nome:",vetor[maior].nome,"-Nota",vetor[maior].nota)
 }
+//Ex2.Crie contarReprovados(alunos), que retorna quantos alunos têm nota menor que 7.
 function contarReprovados(vetor){
     let contador = 0
     for(let i = 0; i < vetor.length;i++){
@@ -148,9 +159,38 @@ function contarReprovados(vetor){
     }
     return console.log("Alunos reprovados:",contador)
 }
+//Ex3.Crie buscar(alunos), que pede um nome e exibe nome e nota do aluno (ou "não encontrado").
 function buscarAluno(vetor){
-    let nome  = prompt("Qual o nome do aluno a ser buscado")
+    let nome  = prompt("Qual o nome do aluno a ser buscado:")
     let encontrado = buscarIndice(vetor, nome)
-    if(encontrado !== -1){}
+    if(encontrado == -1){
+        return console.log("Aluno não cadastrado!!")
+    }
+    console.log("Aluno encontrado:")
+    console.log("Nome:",vetor[encontrado].nome)
+    console.log("Nota:",vetor[encontrado].nota)
+}
+//Ex4.Crie aplicarBonus(alunos, bonus), void, que soma o bônus à nota de todos os alunos.
+function aplicarBonus(vetor){
+    let bonus = parseFloat(prompt("Qual bônus deseja aplicar nas notas:"))
+    for(let i = 0; i <vetor.length; i++){
+        vetor[i].nota = vetor[i].nota + bonus
+    }
+}
+//Ex5.Crie ordenarPorNota(alunos), void, que ordena o vetor da maior para a menor nota.
+//BubleSort
+function ordenarPorNota(vetor){
+    let temp = 0
+    for(let i = 0; i < vetor.length - 1; i++){
+     for(let j = 0; j < vetor.length - 1 - i; j++){
+        if(vetor[j + 1] === undefined)
+            return
+        if(vetor[j].nota > vetor[j + 1].nota){
+            temp = vetor[j]
+            vetor[j] = vetor[j + 1]
+            vetor[j + 1] = temp
+        }
+     }   
+    }
 }
 
