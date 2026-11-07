@@ -61,6 +61,11 @@ function exibirMenu(){
     console.log("5 : Listar aprovados")
     console.log("6 : Alterar nota")
     console.log("7 : Remover aluno")
+    console.log("8 : Mostrar a maior nota")
+    console.log("9 : Contar reprovados")
+    console.log("10 : Buscar aluno")
+    console.log("11 : Aplicar bônus na nota(TODOS)")
+    console.log("12 : Ordenar por nota")
     console.log("0 : Sair")
     return parseInt(prompt("Qual opcao vai ser?"))
 }
@@ -72,11 +77,19 @@ function exibirAlunos(vetor){
 }
 function inserirAluno(vetor){
     let cadastroAlunos
-    let tamanho_vetor
     do{
-        
+        let validarCadastro
+        let nota
         let nome = prompt("Qual o nome do aluno:")
-        let nota = parseInt(prompt("Qual a nota do aluno:"))
+        validarCadastro = buscarIndice(vetor,nome)
+        //Ex6.Impeça inserir dois alunos com o mesmo nome (use buscarIndice).
+        if(validarCadastro !== -1){
+            console.log("Aluno já cadastrado")
+            continue
+        }
+        do{
+            nota = parseInt(prompt("Qual a nota do aluno:"))
+        }while(validarNota(nota))
         vetor[vetor.length] = {
             nome: nome,
             nota: nota
@@ -121,8 +134,16 @@ function buscarIndice(vetor, nome){//função auxiliar
 }
 function alterarNota(vetor){
     let nome = prompt("Qual aluno deseja alterar a nota:")
-    let nota = parseFloat(prompt("Qual a nova nota:"))
+    
+    // 1. Primeiro, buscamos o aluno
     let indice = buscarIndice(vetor, nome)
+    if(indice === -1){
+        console.log("Aluno não encontrado! Ação cancelada.")
+        return // O 'return' encerra a função aqui, evitando o erro no vetor
+    }
+    do{
+        nota = parseFloat(prompt("Qual a nova nota:"))
+    }while(validarNota(nota))
     vetor[indice].nota = nota
     console.log("Nota alterada com sucesso.")
 }
@@ -183,9 +204,7 @@ function ordenarPorNota(vetor){
     let temp = 0
     for(let i = 0; i < vetor.length - 1; i++){
      for(let j = 0; j < vetor.length - 1 - i; j++){
-        if(vetor[j + 1] === undefined)
-            return
-        if(vetor[j].nota > vetor[j + 1].nota){
+        if(vetor[j].nota < vetor[j + 1].nota){
             temp = vetor[j]
             vetor[j] = vetor[j + 1]
             vetor[j + 1] = temp
@@ -193,4 +212,13 @@ function ordenarPorNota(vetor){
      }   
     }
 }
-
+function validarNota(nota){
+   if(nota >= 0 && nota <= 10){
+    return false
+   }
+   else{
+        console.log("Nota invalida!!")
+        console.log("A nota deve estar compreendida entre 0 e 10")
+        return true
+   }
+}
